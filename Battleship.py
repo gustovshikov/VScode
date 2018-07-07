@@ -5,12 +5,16 @@ by Eric Sheridan
 '''
 from random import randint
 print("Welcome to Battleship!")
+print("")
 print("Board is squared of input.")
+# User Setup
 size = input("what size board do you want?: ")
 size = int(size)
 board = []
-guesses = 5
+guesses = input("How many guesses do you want?: ")
+guesses = int(guesses)
 
+# Create Board
 for line in range(0, size):
     board.append(["O"] * size)
 
@@ -29,14 +33,15 @@ ship_col = random_col(board)
 ship_row = (ship_row - 1)
 ship_col = (ship_col - 1)
 ### testing
-print(ship_row)
-print(ship_col)
+#print(ship_row + 1)
+#print(ship_col + 1)
 ### end testing
 ### start turn
 for turn in range(guesses):
     turn = turn + 1
     print("Curent turn is %s out of %s" % (turn, guesses))
     print_board(board)
+    print("Guessed locations:X")
     guess_row = int(input("Guess Row: "))
     guess_col = int(input("Guess Col: "))
 
@@ -46,18 +51,21 @@ for turn in range(guesses):
 
     if (guess_row == ship_row) and (guess_col == ship_col):
         print("Congratulations! You sank my battleship!")
-        board[guess_row][guess_col] = "W"
-        print("Ship location: W")
+        board[guess_row][guess_col] = "S"
+        print("Ship location:S | Guesses:X")
         print_board(board)
+        break
     else:
         if (guess_row not in range(size)) or (guess_col not in range(size)):
             print("Thats not even on the BOARD!!")
         elif (board[guess_row][guess_col] == "X"):
-                print("You already guessed Row:%s Col:%s" % (guess_row, guess_col))
+            print("You already guessed Row:%s Col:%s" % (guess_row + 1, guess_col + 1))
         else:
             print("Sorry you missed the battleship!")
-            board[guess_row][guess_col] = "X"
-board[guess_row][guess_col] = "X"
-board[ship_row][ship_col] = "S"
-print("User guess: X  |  Ship location: S")
-print_board(board)
+            board[guess_row][guess_col] = "X"    
+    if (turn == guesses):
+        print("Game Over")
+        board[ship_row][ship_col] = "S"
+        print("Ship location:S | Guesses:X")
+        print_board(board)
+    
